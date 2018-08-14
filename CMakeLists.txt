@@ -56,6 +56,17 @@ add_definitions(
 	-D_CRT_SECURE_NO_WARNINGS
 )
 
+# OpenGL parameters
+add_executable(gl_parameters 
+	gl_parameters/gl_parameters.cpp
+)
+target_link_libraries(gl_parameters
+	${ALL_LIBS}
+)
+# Xcode and Visual working directories
+set_target_properties(gl_parameters PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/gl_parameters/")
+create_target_launcher(gl_parameters WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/gl_parameters/")
+
 # Tutorial 1
 add_executable(tutorial01_first_window 
 	tutorial01_first_window/tutorial01.cpp

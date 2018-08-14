@@ -51,6 +51,8 @@ static GLboolean animate_cursor = GL_FALSE;
 static GLboolean track_cursor = GL_FALSE;
 static GLFWcursor* standard_cursors[6];
 
+#if __STDC_VERSION__ < 199901L
+
 static float fmax(float a, float b)
 {
     return ((a > b) ? (a) : (b));
@@ -60,6 +62,8 @@ static float fmin(float a, float b)
 {
     return ((a < b) ? (a) : (b));
 }
+
+#endif
 
 static void error_callback(int error, const char* description)
 {
