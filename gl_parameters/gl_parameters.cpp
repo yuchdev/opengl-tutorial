@@ -2,15 +2,20 @@
 
 // Include GLFW
 #include <GLFW/glfw3.h>
-GLFWwindow* window;
+GLFWwindow* window = nullptr;
 
 // Include GLM
 #include <glm/glm.hpp>
 using namespace glm;
 
+// Include AntTweakBar
+#include <AntTweakBar.h>
+
+#include <iostream>
+
 
 /*
-            WebGLv1 = ["VERSION"
+            GLv1 = ["VERSION"
                 , "SHADING_LANGUAGE_VERSION"
                 , "VENDOR", "RENDERER"
                 , "MAX_VERTEX_ATTRIBS"
@@ -29,7 +34,7 @@ using namespace glm;
                 , "MAX_CUBE_MAP_TEXTURE_SIZE"
                 , "MAX_COMBINED_TEXTURE_IMAGE_UNITS"];
 
-                WebGLv2 =  ["MAX_VERTEX_UNIFORM_COMPONENTS"
+                GLv2 =  ["MAX_VERTEX_UNIFORM_COMPONENTS"
                     , "MAX_VERTEX_UNIFORM_BLOCKS"
                     , "MAX_VERTEX_OUTPUT_COMPONENTS"
                     , "MAX_VARYING_COMPONENTS"
@@ -55,7 +60,44 @@ using namespace glm;
                     , "MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS"];
 */
 
+template <typename T>
+void print_param(const char* param_name, T val)
+{
+    std::cout << param_name << " = " << val << '\n';
+}
+
 int main()
 {
+    // Initialize GLFW
+    if( !glfwInit() )
+    {
+        std::cerr << "Failed to initialize GLFW\n";
+        return 0;
+    }
+
+    // Open a window and create its OpenGL context
+    window = glfwCreateWindow( 1024, 768, "GL Window", NULL, NULL);
+    if( window == NULL )
+    {
+        std::cerr << "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n";
+        glfwTerminate();
+        return 0;
+    }
+    glfwMakeContextCurrent(window);
+
+    std::cout << "GL_VENDOR = " << glGetString(GL_VENDOR) << '\n';
+    std::cout << "GL_RENDERER = " << glGetString(GL_RENDERER) << '\n';
+    std::cout << "GL_SHADING_LANGUAGE_VERSION = " << glGetString(GL_SHADING_LANGUAGE_VERSION) << '\n';
+
+    // GL 1 Example
+    GLint maxVertexAttribs = -1;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &maxVertexAttribs);
+    print_param("GL_MAX_VERTEX_ATTRIBS", maxVertexAttribs);
+
+    // GL 2 Example
+    GLint maxVertexUniformComponents = -1;
+    glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &maxVertexUniformComponents);
+    print_param("GL_MAX_VERTEX_UNIFORM_COMPONENTS", maxVertexUniformComponents);
+
     return 0;
 }
